@@ -6,7 +6,17 @@
 //
 enum Link: String {
     case trending = "https://api.themoviedb.org/3/trending/movie/week?api_key=dfb2c09ce9a1c44b17438d980781f789"
+    case image = "https://image.tmdb.org/t/p/"
 }
+
+enum ImageSize: String {
+    case small = "w300"
+    case medium = "w500"
+    case big = "w780"
+    case original = "original"
+}
+
+
 struct Trending: Codable {
     let page: Int?
     let moviesTrending: [MoviesTrending]

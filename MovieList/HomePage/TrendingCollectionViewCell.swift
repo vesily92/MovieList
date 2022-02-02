@@ -11,53 +11,50 @@ class TrendingCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "TrendingCollectionViewCell"
     
-//    let posterImageView: UIImageView = {
-//        let posterView = UIImageView()
-//        posterView.backgroundColor = .blue
-//        posterView.translatesAutoresizingMaskIntoConstraints = false
-//        return posterView
-//    }()
-    
     let posterImage = UIImageView()
     
     let title = UILabel()
     
-    private var spinnerView = UIActivityIndicatorView()
+//    private var spinnerView = UIActivityIndicatorView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        posterImage.layer.cornerRadius = 10
-        posterImage.clipsToBounds = true
         posterImage.contentMode = .scaleAspectFit
+        posterImage.clipsToBounds = true
+        posterImage.layer.cornerRadius = 5
+        posterImage.backgroundColor = .systemBackground
+        
         
         title.numberOfLines = 0
-//
-//        addSubview(posterImageView)
-//
-//        posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-//        posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-//        posterImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-//        posterImageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
+
         let stackView = UIStackView(arrangedSubviews: [posterImage, title])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        
+
         contentView.addSubview(stackView)
-        
+
         NSLayoutConstraint.activate([
+            stackView.heightAnchor.constraint(greaterThanOrEqualTo: contentView.heightAnchor, multiplier: 1),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            title.widthAnchor.constraint(equalTo: posterImage.widthAnchor, multiplier: 1)
         ])
+        
+        stackView.setCustomSpacing(10, after: posterImage)
     }
     
     func configure(with moviesTrending: MoviesTrending?) {
-        title.text = moviesTrending?.title ?? ""
+        title.text = moviesTrending?.title
+
         DispatchQueue.global().async {
-            guard let imageURL = URL(string: moviesTrending?.posterPath ?? "") else { return }
+            let link = Link.image.rawValue
+            let size = ImageSize.medium.rawValue
+            guard let imagePath = moviesTrending?.posterPath else { return }
+            let url = link + size + imagePath
+            guard let imageURL = URL(string: url) else { return }
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             DispatchQueue.main.async {
                 self.posterImage.image = UIImage(data: imageData)

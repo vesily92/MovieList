@@ -17,7 +17,7 @@ class TrendingCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        backgroundColor = .green
+        backgroundColor = .systemBackground
         
         delegate = self
         dataSource = self
@@ -25,6 +25,10 @@ class TrendingCollectionView: UICollectionView {
         register(TrendingCollectionViewCell.self, forCellWithReuseIdentifier: TrendingCollectionViewCell.reuseID)
         
         translatesAutoresizingMaskIntoConstraints = false
+        
+        layout.minimumLineSpacing = 10
+        
+        contentInset = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +40,9 @@ class TrendingCollectionView: UICollectionView {
             self.trendingCells = cells
         })
     }
+    
+    
+    
 }
 
 extension TrendingCollectionView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -50,6 +57,7 @@ extension TrendingCollectionView: UICollectionViewDataSource, UICollectionViewDe
         
         let movie = trendingCells?.moviesTrending[indexPath.item]
         cell.configure(with: movie)
+        
         
         return cell
     }

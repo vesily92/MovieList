@@ -17,7 +17,7 @@ class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchData(from: Link1.movieDetails.rawValue)
+        //fetchData(from: Link1.movieDetails.rawValue)
         
     }
     
@@ -26,11 +26,11 @@ class MovieDetailsViewController: UIViewController {
         showTitle()
     }
     
-    private func fetchData(from url: String?) {
-        NetworkManager.shared.fetchData1(from: url) { movieDetails in
-            self.movieDetails = movieDetails
-        }
-    }
+//    private func fetchData(from url: String?) {
+//        NetworkManager.shared.fetchData1(from: url) { movieDetails in
+//            self.movieDetails = movieDetails
+//        }
+//    }
     
     private func showTitle() {
         movieTitleLabel.text = movieDetails?.title ?? "nil"
